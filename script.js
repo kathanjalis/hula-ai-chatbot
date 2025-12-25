@@ -43,12 +43,15 @@ function addMessage(text, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message', sender === 'user' ? 'user-message' : 'bot-message');
     
+    // Parse Markdown for the bot, keep text simple for the user
+    const formattedText = (sender === 'bot') ? marked.parse(text) : text;
+
     if (sender === 'user') {
-        messageDiv.innerHTML = `<div class="text">${text}</div>`;
+        messageDiv.innerHTML = `<div class="text">${formattedText}</div>`;
     } else {
         messageDiv.innerHTML = `
             <div class="avatar" style="background: #3b82f6;"><i class="fas fa-robot"></i></div>
-            <div class="text">${text}</div>
+            <div class="text">${formattedText}</div>
         `;
     }
     
