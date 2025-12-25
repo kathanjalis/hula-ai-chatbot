@@ -3,6 +3,17 @@ const welcomeScreen = document.getElementById('welcome-screen');
 const userInput = document.getElementById('user-input');
 const sendBtn = document.getElementById('send-btn');
 
+// Ensure `marked.parse` exists. If the CDN didn't load, provide a safe fallback
+if (typeof marked === 'undefined' || typeof marked.parse !== 'function') {
+    window.marked = {
+        parse: function(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML.replace(/\n/g, '<br>');
+        }
+    };
+}
+
 sendBtn.addEventListener('click', handleUserMessage);
 userInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') handleUserMessage(); });
 
